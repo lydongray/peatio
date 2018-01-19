@@ -1,8 +1,8 @@
 #!bin/bash
 sudo apt-get update
 sudo apt-get upgrade -y
-wget https://github.com/lydongray/peatio/blob/master/install/passenger.conf
-wget https://github.com/lydongray/peatio/blob/master/install/bitcoin.conf
+wget https://raw.githubusercontent.com/lydongray/peatio/master/install/passenger.conf
+wget https://raw.githubusercontent.com/lydongray/peatio/master/install/bitcoin.conf
 sudo apt-get remove -y apache2
 curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 sudo apt-get install -y git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev imagemagick gsfonts nodejs nginx-extras redis-server software-properties-common python-software-properties nano dialog vim
