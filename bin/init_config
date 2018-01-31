@@ -2,8 +2,12 @@
 
 require 'fileutils'
 
-Dir.glob("config/*.yml.example").each do |example_file|
-  target_file = example_file[0..-9]
+env = ARGV[0] || 'production'
+puts "#{env}"
+
+Dir.glob("config/#{env}/*.yml.example").each do |example_file|
+  target_file = "config/"+File.basename(example_file[0..-9])
+  puts target_file
 
   if File.exist? target_file
     puts "Ignore the #{target_file}"
@@ -12,4 +16,3 @@ Dir.glob("config/*.yml.example").each do |example_file|
     puts "cp #{example_file} #{target_file}"
   end
 end
-
