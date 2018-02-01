@@ -3,10 +3,11 @@ defaults: &defaults
   # sites hosts
   # session expire seconds
   # admin role account
-  URL_HOST: peatio.dev:3000
-  URL_SCHEMA: http
+  URL_HOST: bithingy.com:80
+  #URL_HOST: bithingy.com:443
+  URL_SCHEMA: https
   SESSION_EXPIRE: 60
-  ADMIN: 'admin@peatio.dev,admin@example.com'
+  ADMIN: 'lydongray@gmail.com'
   TIMEZONE: 'Beijing'
 
   REDIS_URL: redis://127.0.0.1:6379
@@ -14,25 +15,25 @@ defaults: &defaults
   # below settings only in production env
   # system notify mail settings
   # --------------------------------------------------------------
-  SMTP_PORT: YOUR_SMTP_PORT
-  SMTP_DOMAIN: YOUR_SMTP_DOMAIN
-  SMTP_ADDRESS: YOUR_SMTP_ADDRESS
-  SMTP_USERNAME: YOUR_SMTP_USERNAME
-  SMTP_PASSWORD: YOUR_SMTP_PASSWORD
+  SMTP_PORT: 587
+  SMTP_DOMAIN: bithingy.com
+  SMTP_ADDRESS: smtp.mailgun.org
+  SMTP_USERNAME: postmaster@mail.bithingy.com
+  SMTP_PASSWORD: 7273d866fd8a771124b0c3bbfaa2cd4e
   SMTP_AUTHENTICATION: plain # could be plain, login or cram_md5
 
-  SUPPORT_MAIL: support@peatio.dev
-  SYSTEM_MAIL_FROM: system@peatio.dev
-  SYSTEM_MAIL_TO: group@peatio.dev
-  OPERATE_MAIL_TO: support@peatio.dev
+  SUPPORT_MAIL: support@bithingy.com
+  SYSTEM_MAIL_FROM: system@bithingy.com
+  SYSTEM_MAIL_TO: group@bithingy.com
+  OPERATE_MAIL_TO: support@bithingy.com
 
   # WebSocket Streaming API settings
   # --------------------------------------------------------------
   WEBSOCKET_HOST: 0.0.0.0
   WEBSOCKET_PORT: 8080
   # Uncomment below to enable secure WebSocket (wss)
-  #WEBSOCKET_SSL_KEY: 'your_server.key'
-  #WEBSOCKET_SSL_CERT: 'your_server.crt'
+  # WEBSOCKET_SSL_KEY: '/etc/letsencrypt/live/bithingy.com/privkey.pem'
+  # WEBSOCKET_SSL_CERT: '/etc/letsencrypt/live/bithingy.com/fullchain.pem'
 
   # pusher settings
   # --------------------------------------------------------------
@@ -45,9 +46,9 @@ defaults: &defaults
   # PUSHER_KEY: 50d404c35db92d736a57
   # PUSHER_SECRET: 75d6e6685209cc60cc4d
 
-  PUSHER_APP: YOUR_PUSHER_APP
-  PUSHER_KEY: YOUR_PUSHER_KEY
-  PUSHER_SECRET: YOUR_PUSHER_SECRET
+  PUSHER_APP: '466664'
+  PUSHER_KEY: e875251a5663d5bfd800
+  PUSHER_SECRET: 2c343833277ca3a9346b
   PUSHER_HOST: api.pusherapp.com
   PUSHER_PORT: 80
   PUSHER_WS_PORT: 80
@@ -67,9 +68,9 @@ defaults: &defaults
 
   # Weibo
   # --------------------------------------------------------------
-  WEIBO_AUTH: on # on/off
-  WEIBO_KEY: 3820920586
-  WEIBO_SECRET: 2d6174dc698e86860c75d75b1e8a01c8
+  WEIBO_AUTH: off # on/off
+  WEIBO_KEY: 0
+  WEIBO_SECRET: 0
 
   # chat setting
   # --------------------------------------------------------------

@@ -5,7 +5,7 @@ require 'fileutils'
 env = ARGV[0] || 'production'
 puts "#{env}"
 
-Dir.glob("config/#{env}/*.yml.example").each do |example_file|
+Dir.glob("config/environments/#{env}/*.yml.example").each do |example_file|
   target_file = "config/"+File.basename(example_file[0..-9])
   puts target_file
 
