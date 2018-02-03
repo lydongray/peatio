@@ -60,7 +60,7 @@ sudo apt-get update
 sudo apt-get install bitcoind -y
 # Create Bitcoind configuration
 mkdir -p ~/.bitcoin
-touch ~/.bitcoin/bitcoin.conf
+mv bitcoin.conf ~/.bitcoin/bitcoin.conf
 
 # Install Phusion's PGP key to verify packages
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7
@@ -81,21 +81,26 @@ sudo apt-get install nginx-extras -y
 echo 'Installing Passenger'
 sudo apt-get install passenger -y
 # Update passenger.conf with correct ruby location
-# Get passenger_ruby location
-$(which passenger-config) --ruby-command
-read -p "Take note of passenger_ruby location and press [Enter] key to update passenger.conf..."
-# Configure Passenger
-echo 'Configure Passenger'
-nano passenger.conf
+# Eg. passenger_ruby [location];
+# Get passenger_ruby location and store in file
+$(which passenger-config) --ruby-command > passenger-config.conf
+# Extract the exact location using regex and stick it into passenger.conf line 1
+PASSENGER_CONFIG="$(grep -oP '(?<=Nginx\s:\s).*' passenger-config.conf)"
+# Add variable to position 2
+sed -i "2i$PASSENGER_CONFIG;" passenger.conf
+# Remove temporary config file
+sudo rm passenger-config.conf
 # Remove default passenger site
 sudo rm /etc/nginx/sites-enabled/default
+# Move passenger.conf to nginx.conf location
+sudo mv passenger.conf /etc/nginx
 
 # Configure Nginx.conf and copy to default location
 echo 'Configure Nginx.conf'
 # Copy nginx.conf to home folder
 cp /etc/nginx/nginx.conf .
 # Uncomment passenger.conf include
-sed -i 's/#\sinclude\s\/etc\/nginx\/passenger\.conf;/include \/etc\/nginx\/passenger.conf;/g' nginx.conf
+sed -i 's/# include \/etc\/nginx\/passenger\.conf;/include \/etc\/nginx\/passenger.conf;/g' nginx.conf
 sudo cp nginx.conf /etc/nginx/nginx.conf
 sudo rm nginx.conf
 
@@ -144,10 +149,18 @@ bundle exec rake daemons:start
 cd ~/
 
 # Configure SSL certificate
+echo 'Configuring SSL'
+# Install certbot
+sudo add-apt-repository ppa:certbot/certbot -y
+sudo apt-get update
+sudo apt-get install python-certbot-nginx -y
+# Install certificate
+# Certbot will add necessary SSL configurations
+sudo certbot --authenticator webroot --webroot-path /home/deploy/peatio/current/public --installer nginx -d bithingy.com -d www.bithingy.com
 
 # Configure Nginx application and start
 echo 'Configure Nginx application and start'
-sudo ln -s ~/peatio/current/config/nginx.conf /etc/nginx/conf.d/peatio.conf
+sudo ln -s ~/peatio/current/config/production/peatio.conf /etc/nginx/conf.d/peatio.conf
 sudo service nginx restart
 
 # Done
