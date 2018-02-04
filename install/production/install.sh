@@ -63,12 +63,13 @@ mkdir -p ~/.bitcoin
 mv bitcoin.conf ~/.bitcoin/bitcoin.conf
 
 # Install Phusion's PGP key to verify packages
+echo 'Install Phusions PGP key'
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7
-
 # Add HTTPs support to APT
+echo 'Add HTTPs support'
 sudo apt-get install apt-transport-https ca-certificates -y
-
 # Add passenger repository
+echo 'Add Passenger repository'
 sudo add-apt-repository 'deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main'
 sudo apt-get update
 
@@ -148,6 +149,11 @@ bundle exec rake daemons:start
 # Move home
 cd ~/
 
+# Configure Nginx application and start
+echo 'Configure Nginx application and start'
+sudo ln -s ~/peatio/current/config/environments/production/peatio.conf /etc/nginx/conf.d/peatio.conf
+sudo service nginx restart
+
 # Configure SSL certificate
 echo 'Configuring SSL'
 # Install certbot
@@ -155,13 +161,10 @@ sudo add-apt-repository ppa:certbot/certbot -y
 sudo apt-get update
 sudo apt-get install python-certbot-nginx -y
 # Install certificate
+# Add .well-known folders
+sudo mkdir ~/peatio/current/public/.well-known/acme-challenge
 # Certbot will add necessary SSL configurations
-sudo certbot --authenticator webroot --webroot-path /home/deploy/peatio/current/public --installer nginx -d bithingy.com -d www.bithingy.com
-
-# Configure Nginx application and start
-echo 'Configure Nginx application and start'
-sudo ln -s ~/peatio/current/config/production/peatio.conf /etc/nginx/conf.d/peatio.conf
-sudo service nginx restart
+sudo certbot --redirect --authenticator webroot --webroot-path /home/deploy/peatio/current/public --installer nginx -d bithingy.com -d www.bithingy.com
 
 # Done
 echo 'Done'
