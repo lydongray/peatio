@@ -169,18 +169,6 @@ echo 'Configure Nginx application and start'
 sudo ln -s ~/peatio/current/config/environments/development/peatio.conf /etc/nginx/conf.d/peatio.conf
 sudo service nginx restart
 
-# Configure SSL certificate
-echo 'Configuring SSL'
-# Install certbot
-sudo add-apt-repository ppa:certbot/certbot -y
-sudo apt-get update
-sudo apt-get install python-certbot-nginx -y
-# Install certificate
-# Add .well-known folders
-sudo mkdir ~/peatio/current/public/.well-known/acme-challenge
-# Certbot will add necessary SSL configurations
-sudo certbot --redirect --authenticator webroot --webroot-path /home/deploy/peatio/current/public --installer nginx -d bithingy.com -d www.bithingy.com
-
 # Start server
 echo 'Starting server'
 bundle exec rails server
