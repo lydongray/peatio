@@ -143,7 +143,7 @@ source ~/.bashrc
 
 # Install dependency gems
 echo 'Installing Gems'
-bundle install --without development test --path vendor/bundle
+bundle install --without production
 
 # Initialise config
 echo 'Initialising config'

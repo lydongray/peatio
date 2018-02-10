@@ -1,12 +1,12 @@
 GIT
-  remote: git://github.com/peatio/mina-slack.git
+  remote: git://github.com/lydongray/mina-slack.git
   revision: 5b7571a34f1979784720c0bfef555591e89ca3a7
   specs:
     mina-slack (0.1.0)
       mina (~> 0.3.0)
 
 GIT
-  remote: git://github.com/peatio/unread.git
+  remote: git://github.com/lydongray/unread.git
   revision: b8fa0502e9558c93388a104bcbe20376cf43027d
   specs:
     unread (0.4.0)
