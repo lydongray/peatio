@@ -2,7 +2,7 @@ GIT
   remote: git://github.com/lydongray/mina-slack.git
   revision: 5b7571a34f1979784720c0bfef555591e89ca3a7
   specs:
-    mina-slack (0.1.0)
+    mina-slack (0.0.3)
       mina (~> 0.3.0)
 
 GIT
