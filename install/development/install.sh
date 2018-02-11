@@ -65,7 +65,7 @@ mv bitcoin.conf ~/.bitcoin/bitcoin.conf
 #Peatio uses Capybara with PhantomJS to do the feature tests, so if you want to run the tests. Install the PhantomJS is neccessary
 echo 'Install PhantomJS'
 sudo apt-get update
-sudo apt-get install build-essential chrpath git-core libssl-dev libfontconfig1-dev
+sudo apt-get install build-essential chrpath git-core libssl-dev libfontconfig1-dev -y
 cd /usr/local/share
 PHANTOMJS_VERISON=1.9.8
 sudo wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-$PHANTOMJS_VERISON-linux-x86_64.tar.bz2
@@ -79,7 +79,7 @@ cd ~/
 # Install JavaScript Runtime - for asset pipeline to work
 echo 'Installing Javascript Runtime'
 curl -sL https://deb.nodesource.com/setup_8.x | sudo bash -
-sudo apt-get install nodejs
+sudo apt-get install nodejs -y
 
 # Install ImageMagick
 echo 'Installing ImageMagick'

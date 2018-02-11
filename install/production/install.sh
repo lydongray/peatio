@@ -108,7 +108,7 @@ sudo rm nginx.conf
 # Install JavaScript Runtime - for asset pipeline to work
 echo 'Installing Javascript Runtime'
 curl -sL https://deb.nodesource.com/setup_8.x | sudo bash -
-sudo apt-get install nodejs
+sudo apt-get install nodejs -y
 
 # Install ImageMagick
 echo 'Installing ImageMagick'
