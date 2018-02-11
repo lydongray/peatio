@@ -1,4 +1,4 @@
-Rails.application.eager_load! if Rails.env.development?
+#Rails.application.eager_load! if Rails.env.development?
 
 class ActionDispatch::Routing::Mapper
   def draw(routes_name)
@@ -12,7 +12,7 @@ Peatio::Application.routes.draw do
   root 'welcome#index'
 
   if Rails.env.development?
-    mount MailsViewer::Engine => '/mails'
+    #mount MailsViewer::Engine => '/mails'
   end
 
   get '/signin' => 'sessions#new', :as => :signin

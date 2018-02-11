@@ -7,7 +7,6 @@ sudo apt-get upgrade -y
 # Download configuration files
 echo 'Downloading configuration files'
 wget https://raw.githubusercontent.com/lydongray/peatio/master/install/development/bitcoin.conf
-wget https://raw.githubusercontent.com/lydongray/peatio/master/install/development/passenger.conf
 
 # Remove conflicting packages
 echo 'Removing apache2'
@@ -62,49 +61,6 @@ sudo apt-get install bitcoind -y
 mkdir -p ~/.bitcoin
 mv bitcoin.conf ~/.bitcoin/bitcoin.conf
 
-# Install Phusion's PGP key to verify packages
-echo 'Install Phusions PGP key'
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7
-# Add HTTPs support to APT
-echo 'Add HTTPs support'
-sudo apt-get install apt-transport-https ca-certificates -y
-# Add passenger repository
-echo 'Add Passenger repository'
-sudo add-apt-repository 'deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main'
-sudo apt-get update
-
-# Install Nginx
-echo 'Installing Nginx'
-# Install Nginx package
-sudo apt-get install nginx-extras -y
-
-# Install Passenger
-echo 'Installing Passenger'
-sudo apt-get install passenger -y
-# Update passenger.conf with correct ruby location
-# Eg. passenger_ruby [location];
-# Get passenger_ruby location and store in file
-$(which passenger-config) --ruby-command > passenger-config.conf
-# Extract the exact location using regex and stick it into passenger.conf line 1
-PASSENGER_CONFIG="$(grep -oP '(?<=Nginx\s:\s).*' passenger-config.conf)"
-# Add variable to position 2
-sed -i "2i$PASSENGER_CONFIG;" passenger.conf
-# Remove temporary config file
-sudo rm passenger-config.conf
-# Remove default passenger site
-sudo rm /etc/nginx/sites-enabled/default
-# Move passenger.conf to nginx.conf location
-sudo mv passenger.conf /etc/nginx
-
-# Configure Nginx.conf and copy to default location
-echo 'Configure Nginx.conf'
-# Copy nginx.conf to home folder
-cp /etc/nginx/nginx.conf .
-# Uncomment passenger.conf include
-sed -i 's/# include \/etc\/nginx\/passenger\.conf;/include \/etc\/nginx\/passenger.conf;/g' nginx.conf
-sudo cp nginx.conf /etc/nginx/nginx.conf
-sudo rm nginx.conf
-
 # Install PhaontomJS
 #Peatio uses Capybara with PhantomJS to do the feature tests, so if you want to run the tests. Install the PhantomJS is neccessary
 echo 'Install PhantomJS'
@@ -132,9 +88,9 @@ sudo apt-get install imagemagick -y
 # Clone the project
 echo 'Clonging the project'
 mkdir -p ~/peatio
-git clone git://github.com/lydongray/peatio.git ~/peatio/current
+git clone git://github.com/lydongray/peatio.git ~/peatio
 # Move to application folder
-cd peatio/current
+cd peatio
 
 # Set to development
 echo 'Setting deployment to development'
@@ -154,24 +110,14 @@ echo 'Configuring database'
 bundle exec rake db:setup
 bundle exec rake db:migrate
 
-# Precompile assets
-echo 'Precompiling assets'
-bundle exec rake assets:precompile
-
 # Run Daemons
 echo 'Starting Daemons'
 bundle exec rake daemons:start
-# Move home
-cd ~/
-
-# Configure Nginx application and start
-echo 'Configure Nginx application and start'
-sudo ln -s ~/peatio/current/config/environments/development/peatio.conf /etc/nginx/conf.d/peatio.conf
-sudo service nginx restart
 
 # Start server
 echo 'Starting server'
 bundle exec rails server
+cd ~/
 
 # Done
 echo 'Done. Visit http://localhost:3000'
